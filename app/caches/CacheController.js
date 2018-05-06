@@ -1,11 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser')
-var randomstring = require("randomstring");
+let express = require('express');
+let router = express.Router();
+let bodyParser = require('body-parser')
+let randomstring = require("randomstring");
 
+let config = require('config');
 
 //Cache Model Import
-var Cache = require('../../models/cache');
+let Cache = require('../../models/cache');
 
 router.use(bodyParser.urlencoded({extended: false}));
 router.use(bodyParser.json());
@@ -76,6 +77,8 @@ router.delete('/', function(req, res, next){
     }
 });
 
+
+//Common function to Insert cache
 let createCache = function(req, res){
     if(req.method == "GET"){
         req.body.key = req.query.key
@@ -88,21 +91,39 @@ let createCache = function(req, res){
             //Update The Key
             updateCache(req, res);
         }else{
-            //Insert the Key
-            if(!req.body.value){
-                req.body.value = randomstring.generate();
-            }
-
-            let new_cache = {
-                key : req.body.key,
-                value : req.body.value
-            }
-
-            Cache.create(new_cache, function(err, cache){
-                if(err){
-                    return res.status(500).json({data: [], message : err});
+            //Check if Cache Limit exceeded
+            Cache.count({}, function(err, count) {
+                if(count == config.CacheLimit){
+                    //Find the oldest ttl of all the cache and removes it so that the new cache can be created
+                    Cache.findOne({})
+                        .sort({ ttl: 1})
+                        .exec(function(err, cache_details) {
+                        console.log(cache_details);
+                        Cache.findOneAndRemove({ key: cache_details.key }, function(err) {
+                            if (err) {
+                                return res.status(500).json({data: [], message : err});
+                            }
+                        });
+                    });
                 }
-                return res.status(200).json({data : cache, message : "User Created Successfully"});
+            
+                //Insert the Key
+                if(!req.body.value){
+                    req.body.value = randomstring.generate();
+                }
+
+                let new_cache = {
+                    key : req.body.key,
+                    value : req.body.value
+                }
+
+                Cache.create(new_cache, function(err, cache){
+                    if(err){
+                        return res.status(500).json({data: [], message : err});
+                    }
+                    return res.status(200).json({data : cache, message : "Cache Created Successfully"});
+                });
+                
             });
         }
     });
