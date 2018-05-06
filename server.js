@@ -13,10 +13,17 @@ mongoose.connect(config.DBHost);
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-app.get('/', function(req, res){
-    console.log('Success');
-    res.send("Success");
-})
+//Controller import
+let CacheController = require('./app/caches/CacheController');
+
+//Preventing console in test mode 
+if(config.util.getEnv('NODE_ENV') !== 'test') {
+    //use morgan to log at command line
+    app.use(morgan('combined')); //'combined' outputs the Apache style LOGs
+}
+
+
+app.use('/api/v1/cache', CacheController);
 
 //Listening to port
 app.listen(config.port, function(){
