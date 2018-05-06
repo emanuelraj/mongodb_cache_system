@@ -1,0 +1,4 @@
+{
+    "DBHost" : "mongodb://localhost/cache_app",
+    "port" : 8080
+}

@@ -23,5 +23,12 @@
   "bugs": {
     "url": "https://github.com/emanuelraj/mongodb_cache_system/issues"
   },
-  "homepage": "https://github.com/emanuelraj/mongodb_cache_system#readme"
+  "homepage": "https://github.com/emanuelraj/mongodb_cache_system#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "config": "^1.30.0",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.17",
+    "morgan": "^1.9.0"
+  }
 }
