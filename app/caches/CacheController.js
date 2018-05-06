@@ -31,7 +31,11 @@ router.put('/', function(req, res, next){
 
 //Delete Cache Details
 router.delete('/', function(req, res, next){
-    return res.status(200).json({data: [], message: "cache deleted successfully"});
+    if(req.query.key){
+        return res.status(200).json({data: [], message: "cache deleted by Id successfully"});
+    }else{
+        return res.status(200).json({data: [], message: "cache deleted successfully"});
+    }
 });
 
 //export CacheController
