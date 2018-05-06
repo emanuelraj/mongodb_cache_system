@@ -29,3 +29,5 @@ app.use('/api/v1/cache', CacheController);
 app.listen(config.port, function(){
     console.log('App started running in port ' + config.port);
 });
+
+module.exports = app;

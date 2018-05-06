@@ -61,7 +61,7 @@ router.delete('/', function(req, res, next){
     if(req.query.key){
         Cache.findOneAndRemove({ key: req.query.key }, function(err) {
             if (!err) {
-                return res.status(200).json({data: [], message: "cache deleted by Id successfully"});
+                return res.status(200).json({data: [], message: "cache deleted by key successfully"});
             }else {
                 return res.status(500).json({data: [], message : err});
             }
