@@ -10,7 +10,13 @@ router.use(bodyParser.json());
 
 //Get Cache Details
 router.get('/', function(req, res, next){
-    return res.status(200).json({data: [], message: "cache fetched successfully"});
+    if(req.query.key){
+        //Get Cache Details by ID
+        return res.status(200).json({data: [], message: "cache fetched by Id successfully"});
+    }else{
+        //Get All Cache Details
+        return res.status(200).json({data: [], message: "cache fetched successfully"});
+    }
 });
 
 //Post New Cache
