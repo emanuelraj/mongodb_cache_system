@@ -138,7 +138,7 @@ let updateCache = function(req, res){
     if(!req.body.value){
         req.body.value = randomstring.generate();
     }
-    Cache.findOneAndUpdate({key: req.body.key}, {$set:{value: req.body.value, ttl: new Date(+new Date() + 2*60*1000) }}, {new: true}, function(err, cache){
+    Cache.findOneAndUpdate({key: req.body.key}, {$set:{value: req.body.value, ttl: new Date(+new Date() + config.TTLExpireDuration*60*1000) }}, {new: true}, function(err, cache){
         if(err){
             return res.status(500).json({data: [], message : err});
         }

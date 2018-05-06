@@ -1,5 +1,6 @@
 {
     "DBHost" : "mongodb://localhost/cache_app",
     "port" : 8080,
-    "CacheLimit" : 3
+    "CacheLimit" : 3,
+    "TTLExpireDuration": 2
 }
