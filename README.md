@@ -16,11 +16,11 @@
   formData: { key: 'Allen', value: 'Reverse Testing' } }
   
 5. DELETE All Cache - { method: 'DELETE',
-  url: 'http://localhost:8080/api/v1/cache/',
+  url: '/api/v1/cache/',
   headers: { 'content-type': 'application/x-www-form-urlencoded' } }
   
 6. DELETE Cache by Key - { method: 'DELETE',
-  url: 'http://localhost:8080/api/v1/cache/',
+  url: '/api/v1/cache/',
   qs: { key: 'Allensssssssss' },
   headers: { 'content-type': 'application/x-www-form-urlencoded' } }
   
