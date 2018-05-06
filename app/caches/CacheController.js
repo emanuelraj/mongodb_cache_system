@@ -5,6 +5,11 @@ let randomstring = require("randomstring");
 
 let config = require('config');
 
+let filename = './logs/file-record.log';
+
+const log = require('simple-node-logger').createSimpleFileLogger( filename );
+
+
 //Cache Model Import
 let Cache = require('../../models/cache');
 
@@ -25,7 +30,7 @@ router.get('/', function(req, res, next){
                 return res.status(500).json({data: [], message : err});
             }
             if(cache){
-                console.log("Cache hit");
+                log.info('Cache hit');
                 //Check if the ttl expires
                 if(cache.ttl <= new Date){
                     // Update the value with random string and reset ttl
@@ -37,7 +42,7 @@ router.get('/', function(req, res, next){
                 
             }else{
                 // If the Key is not available create new cache 
-                console.log("Cache miss");
+                log.info('Cache miss');
                 createCache(req, res);
             }
         });
