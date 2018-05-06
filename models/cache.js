@@ -2,6 +2,7 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
+
 let CacheSchema = new Schema({
     key : {type: String, required: true},
     value : {type: String, required: true},
