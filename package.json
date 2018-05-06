@@ -4,6 +4,7 @@
   "description": "Cache System in MongoDB \u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[DRest\u001b[D\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[ Rest API for Cache System build with MongoDB",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
