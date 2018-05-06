@@ -58,9 +58,21 @@ router.put('/', function(req, res, next){
 //Delete Cache Details
 router.delete('/', function(req, res, next){
     if(req.query.key){
-        return res.status(200).json({data: [], message: "cache deleted by Id successfully"});
+        Cache.findOneAndRemove({ key: req.query.key }, function(err) {
+            if (!err) {
+                return res.status(200).json({data: [], message: "cache deleted by Id successfully"});
+            }else {
+                return res.status(500).json({data: [], message : err});
+            }
+        });
     }else{
-        return res.status(200).json({data: [], message: "cache deleted successfully"});
+        Cache.remove({}, (err) => { 
+            if (!err) {
+                return res.status(200).json({data: [], message: "All cache deleted successfully"});
+            }else {
+                return res.status(500).json({data: [], message : err});
+            }
+         });
     }
 });
 
