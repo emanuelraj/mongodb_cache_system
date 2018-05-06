@@ -21,12 +21,33 @@ router.get('/', function(req, res, next){
 
 //Post New Cache
 router.post('/', function(req, res, next){
-    return res.status(201).json({data: [], message: "cache saved successfully"});
+    Cache.find({key : req.body.key},function(err, cache){
+        if(err){
+            return res.status(500).json({data: [], message : err});
+        }
+        if(cache.length > 0 ){
+            //Update The Key
+            updateCache(req, res);
+        }else{
+            //Insert the Key
+            let new_cache = {
+                key : req.body.key,
+                value : req.body.value
+            }
+
+            Cache.create(new_cache, function(err, cache){
+                if(err){
+                    return res.status(500).json({data: [], message : err});
+                }
+                return res.status(200).json({data : cache, message : "User Created Successfully"});
+            });
+        }
+    });
 });
 
 //Update Cache Details
 router.put('/', function(req, res, next){
-    return res.status(200).json({data: [], message: "cache updated successfully"});
+    updateCache(req, res);
 });
 
 //Delete Cache Details
@@ -37,6 +58,16 @@ router.delete('/', function(req, res, next){
         return res.status(200).json({data: [], message: "cache deleted successfully"});
     }
 });
+
+//Common function to update cache by key
+let updateCache = function(req, res){
+    Cache.findOneAndUpdate({key: req.body.key}, {$set:{value: req.body.value, ttl: new Date(+new Date() + 2*60*1000) }}, {new: true}, function(err, cache){
+        if(err){
+            return res.status(500).json({data: [], message : err});
+        }
+        return res.status(200).json({data: cache, message: "cache updated successfully"});
+    });
+}
 
 //export CacheController
 module.exports = router;
