@@ -18,14 +18,35 @@ router.use(bodyParser.json());
 
 
 /*
-* GET Method for Cache Deatails
+* GET ALL Method for Cache Deatails
 *
 **/
 router.get('/', function(req, res, next){
+    //Get All Cache Details
+    Cache.find({},function(err, cache){
+        if(err){
+            return res.status(500).json({data: [], message : err});
+        }
 
-    if(req.query.key){
+        //check the cache is empty or not
+        if(cache.length > 0 ){
+            return res.status(200).json({data: cache, message: "cache fetched successfully"});
+        }else{
+            return res.status(200).json({data: [], message: "cache is empty"});
+        }
+    });
+});
+
+
+/*
+* GET BY KEY Method for Cache Deatails
+*
+**/
+
+router.get('/:key', function(req, res, next){
+    if(req.params.key){
         //Get Cache Details by Key
-        Cache.findOne({key : req.query.key},function(err, cache){
+        Cache.findOne({key : req.params.key},function(err, cache){
             if(err){
                 return res.status(500).json({data: [], message : err});
             }
@@ -44,20 +65,6 @@ router.get('/', function(req, res, next){
                 // If the Key is not available create new cache 
                 log.info('Cache miss');
                 createCache(req, res);
-            }
-        });
-    }else{
-        //Get All Cache Details
-        Cache.find({},function(err, cache){
-            if(err){
-                return res.status(500).json({data: [], message : err});
-            }
-
-            //check the cache is empty or not
-            if(cache.length > 0 ){
-                return res.status(200).json({data: cache, message: "cache fetched successfully"});
-            }else{
-                return res.status(200).json({data: [], message: "cache is empty"});
             }
         });
     }
@@ -83,30 +90,37 @@ router.put('/', function(req, res, next){
 });
 
 /*
-* DELETE Method for deleting Cache Deatails
+* DELETE ALL Method for deleting Cache Deatails
 *
 **/
 router.delete('/', function(req, res, next){
+    //Delete All the cache 
+    Cache.remove({}, (err) => { 
+        if (!err) {
+            return res.status(200).json({data: [], message: "All cache deleted successfully"});
+        }else {
+            return res.status(500).json({data: [], message : err});
+        }
+    });
+});
+
+
+/*
+* DELETE by key Method for deleting Cache Deatails
+*
+**/
+router.delete('/:key', function(req, res, next){
 
     //Check if there is key available in the request
-    if(req.query.key){
+    if(req.params.key){
         //Delete the cache if the key exists
-        Cache.findOneAndRemove({ key: req.query.key }, function(err) {
+        Cache.findOneAndRemove({ key: req.params.key }, function(err) {
             if (!err) {
                 return res.status(200).json({data: [], message: "cache deleted by key successfully"});
             }else {
                 return res.status(500).json({data: [], message : err});
             }
         });
-    }else{
-        //Delete All the cache 
-        Cache.remove({}, (err) => { 
-            if (!err) {
-                return res.status(200).json({data: [], message: "All cache deleted successfully"});
-            }else {
-                return res.status(500).json({data: [], message : err});
-            }
-         });
     }
 });
 
