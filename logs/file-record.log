@@ -4,3 +4,7 @@
 19:10:23.803 INFO  Cache hit 
 19:10:26.310 INFO  Cache hit 
 19:10:40.616 INFO  Cache hit 
+09:59:57.525 INFO  Cache miss 
+10:00:07.232 INFO  Cache miss 
+10:00:35.747 INFO  Cache hit 
+10:06:45.544 INFO  Cache miss 

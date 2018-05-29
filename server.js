@@ -14,7 +14,7 @@ let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 //Controller import
-let CacheController = require('./app/caches/CacheController');
+//let CacheController = require('./app/caches/CacheController');
 
 //Preventing console in test mode 
 if(config.util.getEnv('NODE_ENV') !== 'test') {
@@ -23,11 +23,13 @@ if(config.util.getEnv('NODE_ENV') !== 'test') {
 }
 
 
-app.use('/api/v1/cache', CacheController);
+//app.use('/api/v1/cache', CacheController);
 
 //Listening to port
 app.listen(config.port, function(){
     console.log('App started running in port ' + config.port);
 });
+
+require('./routes')(app);
 
 module.exports = app;
