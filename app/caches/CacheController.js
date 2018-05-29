@@ -1,7 +1,6 @@
 let express = require('express');
 let router = express.Router();
 let bodyParser = require('body-parser')
-let randomstring = require("randomstring");
 
 let config = require('config');
 
@@ -158,10 +157,10 @@ let createCache = function(req, res){
                             
                 //If cache string is not available, generation random string
                 if(req.method == "GET"){
-                    search_value = randomstring.generate();
+                    search_value = Math.random().toString(36);
                 }else{
                     if(!req.body.value){
-                        search_value = randomstring.generate();
+                        search_value = Math.random().toString(36);
                     }
                 }
 
@@ -203,10 +202,10 @@ let updateCache = function(req, res){
     
     //Set random string if the value is not available
     if(req.method == "GET"){
-        search_value = randomstring.generate();
+        search_value = Math.random().toString(36);
     }else{
         if(!req.body.value){
-            search_value = randomstring.generate();
+            search_value = Math.random().toString(36);
         }
     }
 
